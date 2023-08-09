@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Font Pairing App</title>
+</head>
+<body>
+    <h1>Font Pairing App</h1>
+    <form id="fontForm">
+        <label for="originalFont">Enter Original Font:</label>
+        <input type="text" id="originalFont" name="originalFont">
+        <button type="button" onclick="getPairedFont()">Get Paired Font</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function getPairedFont() {
+            const originalFont = document.getElementById('originalFont').value;
+
+            fetch(`/pairing/?original_font=${originalFont}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = `
+                        <p>Original Font: ${data.original_font}</p>
+                        <p>Paired Font: ${data.paired_font}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+                });
+        }
+    </script>
+</body>
+</html>
