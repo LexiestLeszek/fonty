@@ -2,11 +2,76 @@
 <html>
 <head>
     <title>Font Pairing App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        input[type="text"] {
+            font-size: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 1rem;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
 </head>
 <body>
     <h1>Font Pairing App</h1>
     <form id="fontForm">
-        <label for="originalFont">Enter Original Font:</label>
+        <label for="originalFont">Enter Font:   </label>
         <input type="text" id="originalFont" name="originalFont">
         <button type="button" onclick="getPairedFont()">Get Paired Font</button>
     </form>
@@ -21,14 +86,17 @@
                 .then(data => {
                     const resultDiv = document.getElementById('result');
                     resultDiv.innerHTML = `
-                        <p>Original Font: ${data.original_font}</p>
-                        <p>Paired Font: ${data.paired_font}</p>
+                        <div class="fadeIn">
+                            <p>${data.original_font} is best paired with ${data.paired_font}</p>
+                        </div>
                     `;
+                    resultDiv.style.display = 'block';
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     const resultDiv = document.getElementById('result');
-                    resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+                    resultDiv.innerHTML = `<p class="fadeIn" style="color: red;">Error: ${error.message}</p>`;
+                    resultDiv.style.display = 'block';
                 });
         }
     </script>
